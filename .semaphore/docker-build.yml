@@ -12,8 +12,8 @@ blocks:
           value: '-Dmaven.repo.local=.m2'
         - name: ENVIRONMENT
           value: dev
-      secrets:
-        - name: dockerhub
+      #secrets:
+        #- name: dockerhub
       prologue:
         commands:
           - checkout
@@ -23,7 +23,8 @@ blocks:
         - name: Docker build
           commands:
             - mvn -q package -Dmaven.test.skip=true
+            - echo "Docker Build Dummy"
             #- echo "$DOCKER_PASSWORD" | docker login  --username "$DOCKER_USERNAME" --password-stdin
-            - 'docker pull "$DOCKER_USERNAME"/semaphore-demo-java-spring:latest || true'
-            - 'docker build --cache-from "$DOCKER_USERNAME"/semaphore-demo-java-spring:latest --build-arg ENVIRONMENT="${ENVIRONMENT}" -t "$DOCKER_USERNAME"/semaphore-demo-java-spring:latest .'
+            #- 'docker pull "$DOCKER_USERNAME"/semaphore-demo-java-spring:latest || true'
+            #- 'docker build --cache-from "$DOCKER_USERNAME"/semaphore-demo-java-spring:latest --build-arg ENVIRONMENT="${ENVIRONMENT}" -t "$DOCKER_USERNAME"/semaphore-demo-java-spring:latest .'
             #- 'docker push "$DOCKER_USERNAME"/semaphore-demo-java-spring:latest'
