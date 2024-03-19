@@ -33,9 +33,11 @@ blocks:
         - name: Unit tests
           commands:
             - mvn test
+            - ls -la
         - name: Integration tests
           commands:
             - mvn test -Pintegration-testing
+            - ls -la
       epilogue:
         always:
           commands:
@@ -58,6 +60,7 @@ blocks:
             - sleep 20
             - 'mvn -q jmeter:jmeter'
             - 'mvn jmeter:results'
+            - ls -la
       epilogue:
         always:
           commands:
