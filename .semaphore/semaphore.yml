@@ -33,15 +33,13 @@ blocks:
         - name: Unit tests
           commands:
             - mvn test
-            - ls -la
         - name: Integration tests
           commands:
             - mvn test -Pintegration-testing
-            - ls -la
       epilogue:
         always:
           commands:
-            - '[[ -f report.xml ]] && test-results publish report.xml'
+            - test-results publish target/surefire-reports
   - name: Performance tests
     task:
       env_vars:
@@ -60,18 +58,10 @@ blocks:
             - sleep 20
             - 'mvn -q jmeter:jmeter'
             - 'mvn jmeter:results'
-            - ls -la
       epilogue:
         always:
           commands:
-            - '[[ -f report.xml ]] && test-results publish report.xml'
-
-after_pipeline:
-  task:
-    jobs:
-      - name: Publish Results
-        commands:
-          - test-results gen-pipeline-report
+            - test-results publish target/jmeter/results
 
 promotions:
   - name: "Dockerize \U0001F433"
