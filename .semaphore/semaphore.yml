@@ -36,6 +36,10 @@ blocks:
         - name: Integration tests
           commands:
             - mvn test -Pintegration-testing
+      epilogue:
+        always:
+          commands:
+            - '[[ -f report.xml ]] && test-results publish report.xml'
   - name: Performance tests
     task:
       env_vars:
@@ -54,6 +58,18 @@ blocks:
             - sleep 20
             - 'mvn -q jmeter:jmeter'
             - 'mvn jmeter:results'
+      epilogue:
+        always:
+          commands:
+            - '[[ -f report.xml ]] && test-results publish report.xml'
+
+after_pipeline:
+  task:
+    jobs:
+      - name: Publish Results
+        commands:
+          - test-results gen-pipeline-report
+
 promotions:
   - name: "Dockerize \U0001F433"
     pipeline_file: docker-build.yml
