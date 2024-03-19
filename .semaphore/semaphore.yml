@@ -63,6 +63,13 @@ blocks:
           commands:
             - test-results publish target/jmeter/results
 
+after_pipeline:
+  task:
+    jobs:
+      - name: Publish Results
+        commands:
+          - test-results gen-pipeline-report
+
 promotions:
   - name: "Dockerize \U0001F433"
     pipeline_file: docker-build.yml
