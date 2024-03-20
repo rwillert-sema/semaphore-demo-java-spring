@@ -1,0 +1,34 @@
+version: v1.0
+name: '${{parameters.ENVIRONMENT}} deployment'
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu2004
+queue:
+  name: '${{parameters.ENVIRONMENT}}-deployment-queue'
+  scope: project
+blocks:
+  - name: Release
+    task:
+      #secrets:
+        #- name: aws
+      prologue:
+        commands:
+          - checkout
+      jobs:
+        - name: Release
+          commands:
+            - echo "Release Dummy"
+            - echo $ENVIRONMENT
+  - name: Deploy
+    task:
+      #secrets:
+        #- name: aws
+      prologue:
+        commands:
+          - checkout
+      jobs:
+        - name: Deploy
+          commands:
+            - echo "Deploy Dummy"
+            - echo $ENVIRONMENT

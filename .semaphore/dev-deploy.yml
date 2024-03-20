@@ -1,0 +1,21 @@
+version: v1.0
+name: "dev deploy"
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu2004
+blocks:
+  - name: Deploy
+    task:
+      env_vars:
+        - name: ENVIRONMENT
+          value: dev
+      #secrets:
+        #- name: aws
+      prologue:
+        commands:
+          - checkout
+      jobs:
+        - name: Deploy
+          commands:
+            - echo "Deploy Dummy"

@@ -75,3 +75,22 @@ promotions:
     pipeline_file: docker-build.yml
     auto_promote_on:
       - result: passed
+  - name: Dev deploy
+    pipeline_file: dev-deploy.yml
+    auto_promote:
+      when: "result = 'passed' and branch = 'master'"
+  - name: Deploy
+    pipeline_file: deploy.yml
+    parameters:
+      env_vars:
+        - required: true
+          options:
+            - dev
+            - integration
+            - prod
+          default_value: dev
+          description: Where to deploy?
+          name: ENVIRONMENT
+        - required: false
+          description: Release name?
+          name: RELEASE
